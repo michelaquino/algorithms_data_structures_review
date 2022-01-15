@@ -77,7 +77,7 @@ func main() {
 		}
 	}
 
-	fmt.Println(time.Since(start))
+	fmt.Println("main:", time.Since(start))
 	fmt.Printf("%d %d", int64(min), int64(max))
 }
 
@@ -86,8 +86,8 @@ func dnaHealth(genes []string, geneHealth []int32, d string, first, last int32) 
 
 	for i := first; i <= last; i++ {
 		gene := genes[i]
-		count := naiveSearch(d, gene)
-		// count := kmpSearch(d, gene)
+		// count := naiveSearch(d, gene)
+		count := kmpSearch(d, gene)
 		geneHealthSum := int64(count * geneHealth[i])
 		sum += geneHealthSum
 	}
@@ -134,6 +134,8 @@ func naiveSearch(str, pattern string) int32 {
 
 // https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
 func kmpSearch(str, pattern string) int32 {
+	// start := time.Now()
+
 	// LPS: longest proper prefix which is also suffix
 	lpsTableNumber := []int{}
 	for range pattern {
@@ -201,12 +203,15 @@ func kmpSearch(str, pattern string) int32 {
 		}
 	}
 
+	// fmt.Println("kmpSearch: ", time.Since(start))
 	return quantityFound
 }
 
 func maxLenOfPropperPrefixAndSuffixThatMatch(str string) int {
+	// start := time.Now()
 	mapProperMatch := map[string]int{}
 
+	max := 0
 	for i, j := 0, len(str)-1; i <= len(str)-2 || j > 1; i, j = i+1, j-1 {
 		prefix := str[:i+1]
 		suffix := str[j:]
@@ -216,7 +221,6 @@ func maxLenOfPropperPrefixAndSuffixThatMatch(str string) int {
 
 	}
 
-	max := 0
 	for subStr, value := range mapProperMatch {
 		if value <= 1 {
 			// No match
@@ -228,6 +232,7 @@ func maxLenOfPropperPrefixAndSuffixThatMatch(str string) int {
 		}
 	}
 
+	// fmt.Println("maxLenOfPropperPrefixAndSuffixThatMatch: ", time.Since(start))
 	return max
 }
 

@@ -8,14 +8,20 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func main() {
-	// file, err := os.Open("input.txt")
-	// checkError(err)
-	// reader := bufio.NewReaderSize(file, 16*1024*1024)
+	// kmpSearch("a", "abcdabeabf")
+	// computePrefix("aabcadaabe")
+	// fmt.Println(kmpSearch("aaa", "aa"))
+	// return
 
-	reader := bufio.NewReaderSize(os.Stdin, 16*1024*1024)
+	file, err := os.Open("input.txt")
+	checkError(err)
+	reader := bufio.NewReaderSize(file, 16*1024*1024)
+
+	// reader := bufio.NewReaderSize(os.Stdin, 16*1024*1024)
 
 	nTemp, err := strconv.ParseInt(strings.TrimSpace(readLine(reader)), 10, 64)
 	checkError(err)
@@ -45,6 +51,7 @@ func main() {
 	checkError(err)
 	s := int32(sTemp)
 
+	start := time.Now()
 	min := math.Inf(1)
 	max := math.Inf(-1)
 	for sItr := 0; sItr < int(s); sItr++ {
@@ -70,14 +77,17 @@ func main() {
 		}
 	}
 
+	fmt.Println(time.Since(start))
 	fmt.Printf("%d %d", int64(min), int64(max))
 }
 
 func dnaHealth(genes []string, geneHealth []int32, d string, first, last int32) int64 {
 	var sum int64 = 0
+
 	for i := first; i <= last; i++ {
 		gene := genes[i]
 		count := naiveSearch(d, gene)
+		// count := kmpSearch(d, gene)
 		geneHealthSum := int64(count * geneHealth[i])
 		sum += geneHealthSum
 	}
@@ -122,6 +132,105 @@ func naiveSearch(str, pattern string) int32 {
 	return quantityFound
 }
 
+// https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm
+func kmpSearch(str, pattern string) int32 {
+	// LPS: longest proper prefix which is also suffix
+	lpsTableNumber := []int{}
+	for range pattern {
+		lpsTableNumber = append(lpsTableNumber, 0)
+	}
+
+	for i := 0; i < len(pattern); i++ {
+		subPattern := pattern[:i+1]
+		max := maxLenOfPropperPrefixAndSuffixThatMatch(subPattern)
+		lpsTableNumber[i] = max
+	}
+
+	// fmt.Println("str: ", str)
+	// fmt.Println("pattern: ", pattern)
+	// fmt.Println("lpsTableNumber: ", lpsTableNumber)
+
+	lenPattern := len(pattern)
+	j := 0
+	var quantityFound int32 = 0
+
+	for i := 0; i < len(str); i++ {
+		// fmt.Println("-----------")
+		// fmt.Println("i: ", i)
+		// fmt.Println("j: ", j)
+
+		// fmt.Println("string(str[i]): ", string(str[i]))
+		// fmt.Println("string(pattern[j]): ", string(pattern[j]))
+
+		// fmt.Println("str: ", str)
+		// fmt.Println("pattern: ", string(pattern))
+		// fmt.Println("j: ", j)
+		// fmt.Println("pattern[j]: ", string(pattern[j]))
+		if string(str[i]) != string(pattern[j]) {
+			// fmt.Println("Mismatch")
+			// Mismatch
+
+			returnTo := lpsTableNumber[j] - 1
+			if returnTo < 0 {
+				continue
+			}
+
+			j = lpsTableNumber[j] - 1
+			continue
+		}
+
+		// fmt.Println("Match")
+		// fmt.Println("lenPattern: ", lenPattern)
+		// fmt.Println("j: ", j)
+		// Match
+		j++
+		if j < lenPattern {
+			// fmt.Println("Not found yet")
+			// Not found
+			continue
+		}
+
+		quantityFound++
+		j = 0
+		if i+1 >= len(str) || i == 0 {
+			continue
+		}
+
+		if len(pattern) > 1 {
+			i--
+		}
+	}
+
+	return quantityFound
+}
+
+func maxLenOfPropperPrefixAndSuffixThatMatch(str string) int {
+	mapProperMatch := map[string]int{}
+
+	for i, j := 0, len(str)-1; i <= len(str)-2 || j > 1; i, j = i+1, j-1 {
+		prefix := str[:i+1]
+		suffix := str[j:]
+
+		mapProperMatch[prefix] += 1
+		mapProperMatch[suffix] += 1
+
+	}
+
+	max := 0
+	for subStr, value := range mapProperMatch {
+		if value <= 1 {
+			// No match
+			continue
+		}
+
+		if len(subStr) > max {
+			max = len(subStr)
+		}
+	}
+
+	return max
+}
+
 func readLine(reader *bufio.Reader) string {
 	str, _, err := reader.ReadLine()
 	if err == io.EOF {
@@ -136,8 +245,3 @@ func checkError(err error) {
 		panic(err)
 	}
 }
-
-// min:  2000000
-// max:  -1
-
-// 3218660 11137051

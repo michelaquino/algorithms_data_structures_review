@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func main() {
 	toSort := []int{5, 7, 2, 1, 0, 8, 3, 6, 9, 4}
-	fmt.Println(toSort)
 
 	sorted := quicksort(toSort)
 	fmt.Println()
@@ -15,7 +13,6 @@ func main() {
 }
 
 func quicksort(toSort []int) []int {
-	time.Sleep(1 * time.Second)
 	if len(toSort) < 2 {
 		return toSort
 	}

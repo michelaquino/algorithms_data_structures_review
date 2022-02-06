@@ -19,12 +19,37 @@ import (
  */
 
 func swapNodes(writer *bufio.Writer, indexes [][]int32, queries []int32) [][]int32 {
-	for _, query := range queries {
-		newIndex := make([]int32, 2)
-		copy(newIndex, indexes[query-1])
+	nodeDepthMap := map[int]int{
+		1: 1,
+	}
 
-		newIndex[0], newIndex[1] = newIndex[1], newIndex[0]
-		indexes[query-1] = newIndex
+	for i, index := range indexes {
+		left := index[0]
+		if left != -1 {
+			nodeDepthMap[int(left)] = nodeDepthMap[i+1] + 1
+		}
+
+		right := index[1]
+		if right != -1 {
+			nodeDepthMap[int(right)] = nodeDepthMap[i+1] + 1
+		}
+	}
+
+	for _, query := range queries {
+		for node, _ := range indexes {
+			depth := nodeDepthMap[node+1]
+
+			// if node isn't multiple of query
+			if (int32(depth))%query != 0 {
+				continue
+			}
+
+			newIndex := make([]int32, 2)
+			copy(newIndex, indexes[node])
+
+			newIndex[0], newIndex[1] = newIndex[1], newIndex[0]
+			indexes[node] = newIndex
+		}
 
 		printTree(writer, indexes, 1)
 
@@ -55,7 +80,7 @@ func printTree(writer *bufio.Writer, tree [][]int32, depth int32) {
 }
 
 func main() {
-	file, err := os.Open("input0.txt")
+	file, err := os.Open("input1.txt")
 	defer file.Close()
 	checkError(err)
 	reader := bufio.NewReader(file)

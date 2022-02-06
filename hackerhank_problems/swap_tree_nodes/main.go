@@ -55,7 +55,7 @@ func printTree(writer *bufio.Writer, tree [][]int32, depth int32) {
 }
 
 func main() {
-	file, err := os.Open("input.txt")
+	file, err := os.Open("input0.txt")
 	defer file.Close()
 	checkError(err)
 	reader := bufio.NewReader(file)

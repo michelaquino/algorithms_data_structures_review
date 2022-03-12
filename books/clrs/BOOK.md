@@ -1,0 +1,1 @@
+https://www.amazon.com.br/Introduction-Algorithms-Thomas-H-Cormen/dp/0262033844/ref=sr_1_3?keywords=introduction+to+algorithms+cormen&qid=1647098532&sprefix=introdution+to+al%2Caps%2C247&sr=8-3&ufe=app_do%3Aamzn1.fos.25548f35-0de7-44b3-b28e-0f56f3f96147

@@ -6,7 +6,7 @@ Link: - https://www.amazon.com.br/Introduction-Algorithms-Thomas-H-Cormen/dp/026
 
 ## Implementations
 - [x] Chapter 1 - This is introducing the concept of algorihtms and does not include any codeable text.
-- [ ] Chapter 2
+- [x] Chapter 2
 - [x] Chapter 3 -  Nothing to implement.
 - [ ] Chapter 4
 - [ ] Chapter 5

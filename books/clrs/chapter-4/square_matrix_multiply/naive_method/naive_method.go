@@ -3,17 +3,31 @@ package main
 import "fmt"
 
 func main() {
-	matrixOne := [][]int{
-		{1, 2},
-		{3, 4},
+	fisrt := [][]int{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 10, 11, 12},
+		{13, 14, 15, 16},
 	}
 
-	matrixTwo := [][]int{
-		{5, 6},
-		{7, 8},
+	second := [][]int{
+		{1, 2, 3, 4},
+		{5, 6, 7, 8},
+		{9, 10, 11, 12},
+		{13, 14, 15, 16},
 	}
 
-	result := naive_method(matrixOne, matrixTwo)
+	// fisrt := [][]int{
+	// 	{1, 2},
+	// 	{3, 4},
+	// }
+
+	// second := [][]int{
+	// 	{1, 2},
+	// 	{3, 4},
+	// }
+
+	result := naive_method(fisrt, second)
 	printMatrix(result)
 }
 
@@ -26,7 +40,7 @@ func naive_method(matrixOne, matrixTwo [][]int) [][]int {
 	for i := range matrixOne {
 		for j := range matrixOne {
 			for k := range matrixOne {
-				result[i][j] = matrixOne[i][k] * matrixTwo[k][j]
+				result[i][j] += matrixOne[i][k] * matrixTwo[k][j]
 			}
 		}
 	}

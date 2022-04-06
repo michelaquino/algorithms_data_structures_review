@@ -11,7 +11,7 @@ type heap struct {
 func newHeap(array []int, startIndex, endIndex int) *heap {
 	return &heap{
 		array:  array,
-		length: len(array),
+		length: len(array) - 1,
 		size:   endIndex - startIndex,
 	}
 }
@@ -34,13 +34,21 @@ func (h *heap) setLengthToSize() {
 	h.size = h.length
 }
 
-func main() {
-	array := []int{16, 4, 10, 14, 7, 9, 3, 2, 8, 1}
-	heap := newHeap(array, 0, len(array))
+func (h *heap) downHeapSize() {
+	h.size -= 1
+}
 
-	heap.print()
-	buildMaxHeap(heap)
-	heap.print()
+func main() {
+	array := []int{2, 4, 3, 14, 1, 9, 10, 16, 8, 7}
+
+	// heap := newHeap(array, 0, len(array)-1)
+	// buildMaxHeap(heap)
+	// maxHeapify(heap, 4)
+	// heap.print()
+
+	fmt.Println("array: ", array)
+	arraySorted := heapsort(array)
+	fmt.Println("arraySorted: ", arraySorted)
 }
 
 func maxHeapify(heap *heap, position int) {
@@ -48,13 +56,19 @@ func maxHeapify(heap *heap, position int) {
 	right := right(position)
 	largest := -1
 
-	if left < heap.size && heap.array[left] > heap.array[position] {
+	// fmt.Println("left: ", left)
+	// fmt.Println("heap.size: ", heap.size)
+	// fmt.Println("right: ", right)
+
+	if left <= heap.size && heap.array[left] > heap.array[position] {
 		largest = left
 	} else {
 		largest = position
 	}
 
-	if right < heap.size && heap.array[right] > heap.array[largest] {
+	// fmt.Println("largest: ", largest)
+
+	if right <= heap.size && heap.array[right] > heap.array[largest] {
 		largest = right
 	}
 
@@ -67,9 +81,23 @@ func maxHeapify(heap *heap, position int) {
 func buildMaxHeap(heap *heap) {
 	heap.setLengthToSize()
 
-	for i := len(heap.array) / 2; i >= 0; i-- {
+	middle := heap.length / 2
+	for i := middle; i >= 0; i-- {
 		maxHeapify(heap, i)
 	}
+}
+
+func heapsort(array []int) []int {
+	heap := newHeap(array, 0, len(array))
+	buildMaxHeap(heap)
+
+	for i := heap.length; i >= 1; i-- {
+		heap.exchangePosition(0, i)
+		heap.downHeapSize()
+		maxHeapify(heap, 0)
+	}
+
+	return heap.array
 }
 
 func parent(i int) int {

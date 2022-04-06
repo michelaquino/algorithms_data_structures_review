@@ -1,6 +1,9 @@
 package heap
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type Heap struct {
 	array  []int
@@ -50,6 +53,22 @@ func (h *Heap) BuildMaxHeap() {
 	for i := middle; i >= 0; i-- {
 		h.MaxHeapify(i)
 	}
+}
+
+func (h Heap) Maximum() int {
+	return h.array[0]
+}
+
+func (h Heap) ExtractMax() (int, error) {
+	if h.size < 1 {
+		return -1, errors.New("heap underflow")
+	}
+
+	max := h.array[0]
+	h.ExchangePosition(0, h.size)
+	h.DownHeapSize()
+	h.MaxHeapify(0)
+	return max, nil
 }
 
 func (h Heap) Print() {

@@ -22,7 +22,7 @@ func (h *heap) exchangePosition(position1, position2 int) {
 	h.array[position2] = value1
 }
 
-func (h *heap) print() {
+func (h heap) print() {
 	fmt.Println()
 	for _, a := range h.array {
 		fmt.Printf("%d ", a)
@@ -30,12 +30,16 @@ func (h *heap) print() {
 	fmt.Println()
 }
 
+func (h *heap) setLengthToSize() {
+	h.size = h.length
+}
+
 func main() {
 	array := []int{16, 4, 10, 14, 7, 9, 3, 2, 8, 1}
 	heap := newHeap(array, 0, len(array))
 
 	heap.print()
-	maxHeapify(heap, 1)
+	buildMaxHeap(heap)
 	heap.print()
 }
 
@@ -57,6 +61,14 @@ func maxHeapify(heap *heap, position int) {
 	if largest != position {
 		heap.exchangePosition(largest, position)
 		maxHeapify(heap, largest)
+	}
+}
+
+func buildMaxHeap(heap *heap) {
+	heap.setLengthToSize()
+
+	for i := len(heap.array) / 2; i >= 0; i-- {
+		maxHeapify(heap, i)
 	}
 }
 

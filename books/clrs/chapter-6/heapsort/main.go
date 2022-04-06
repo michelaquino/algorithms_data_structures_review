@@ -41,11 +41,6 @@ func (h *heap) downHeapSize() {
 func main() {
 	array := []int{2, 4, 3, 14, 1, 9, 10, 16, 8, 7}
 
-	// heap := newHeap(array, 0, len(array)-1)
-	// buildMaxHeap(heap)
-	// maxHeapify(heap, 4)
-	// heap.print()
-
 	fmt.Println("array: ", array)
 	arraySorted := heapsort(array)
 	fmt.Println("arraySorted: ", arraySorted)
@@ -56,17 +51,11 @@ func maxHeapify(heap *heap, position int) {
 	right := right(position)
 	largest := -1
 
-	// fmt.Println("left: ", left)
-	// fmt.Println("heap.size: ", heap.size)
-	// fmt.Println("right: ", right)
-
 	if left <= heap.size && heap.array[left] > heap.array[position] {
 		largest = left
 	} else {
 		largest = position
 	}
-
-	// fmt.Println("largest: ", largest)
 
 	if right <= heap.size && heap.array[right] > heap.array[largest] {
 		largest = right

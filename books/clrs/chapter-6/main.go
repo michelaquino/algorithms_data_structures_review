@@ -12,14 +12,17 @@ func main() {
 	heap := heap.NewHeap(array, 0, len(array))
 	heap.BuildMaxHeap()
 
-	max, err := heap.ExtractMax()
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("---------------------------")
-	fmt.Println(max)
 	heap.Print()
+	heap.IncreaseKey(3, 15)
+	heap.Print()
+
+	// max, err := heap.ExtractMax()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println("---------------------------")
+	// fmt.Println(max)
+	// heap.Print()
 }
 
 func run_heapsort() {

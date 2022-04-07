@@ -71,6 +71,29 @@ func (h Heap) ExtractMax() (int, error) {
 	return max, nil
 }
 
+func (h *Heap) IncreaseKey(index, newKey int) error {
+	if h.array[index] > newKey {
+		return errors.New("new key is smaller than actual key")
+	}
+
+	h.array[index] = newKey
+	for {
+		if index <= 0 {
+			break
+		}
+
+		parentIndex := parent(index)
+		if h.array[parentIndex] >= h.array[index] {
+			break
+		}
+
+		h.ExchangePosition(parentIndex, index)
+		index = parentIndex
+	}
+
+	return nil
+}
+
 func (h Heap) Print() {
 	fmt.Println()
 	for _, a := range h.array {

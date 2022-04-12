@@ -16,6 +16,10 @@ func main() {
 	heap.IncreaseKey(3, 15)
 	heap.Print()
 
+	heap.Print()
+	heap.Insert(11)
+	heap.Print()
+
 	// max, err := heap.ExtractMax()
 	// if err != nil {
 	// 	panic(err)

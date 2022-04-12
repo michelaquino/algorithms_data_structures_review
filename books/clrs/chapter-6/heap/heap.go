@@ -94,6 +94,12 @@ func (h *Heap) IncreaseKey(index, newKey int) error {
 	return nil
 }
 
+func (h *Heap) Insert(key int) {
+	h.size += 1
+	h.array = append(h.array, -1)
+	h.IncreaseKey(h.size, key)
+}
+
 func (h Heap) Print() {
 	fmt.Println()
 	for _, a := range h.array {

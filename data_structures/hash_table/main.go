@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	hashTable := newHashTableStaticArray(20)
+	// hashTable := newHashTableStaticArray(20)
+	hashTable := newHashTableDynamicArray()
 	hashTable.add("aasdasdasd", 1)
 	hashTable.add("basdasqweqwe", 2)
 	hashTable.add("cpqwepoqe", 3)
@@ -42,6 +43,72 @@ func (h *hashTableStaticArray) add(key string, value any) {
 }
 
 func (h hashTableStaticArray) print() {
+	for _, node := range h.table {
+		if node == nil {
+			fmt.Println("nil")
+			continue
+		}
+
+		node.print()
+		fmt.Println("")
+	}
+}
+
+type hashTableDynamicArray struct {
+	table []*node
+}
+
+func newHashTableDynamicArray() hashTableDynamicArray {
+	return hashTableDynamicArray{
+		table: make([]*node, 1),
+	}
+}
+
+func (h *hashTableDynamicArray) add(key string, value any) {
+	index := h.calcIndex(key)
+	h.checkResize(index)
+
+	if h.table[index] == nil {
+		h.table[index] = newNode(key, value)
+		return
+	}
+
+	h.table[index].insert(key, value)
+}
+
+func (h *hashTableDynamicArray) calcIndex(key string) int {
+	hash := calculateHash(key)
+
+	index := 0
+	if cap(h.table) > 0 {
+		index = int(hash % cap(h.table))
+	}
+
+	return index
+}
+
+func (h *hashTableDynamicArray) checkResize(index int) {
+	if len(h.table) > index+1 {
+		return
+	}
+
+	h.resize()
+}
+
+func (h *hashTableDynamicArray) resize() {
+	if len(h.table) == 0 {
+		h.table = make([]*node, 1)
+		return
+	}
+
+	newCap := len(h.table) * 2
+	doubleTable := make([]*node, newCap)
+	copy(doubleTable, h.table)
+
+	h.table = doubleTable
+}
+
+func (h hashTableDynamicArray) print() {
 	for _, node := range h.table {
 		if node == nil {
 			fmt.Println("nil")

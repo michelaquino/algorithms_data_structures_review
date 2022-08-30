@@ -52,6 +52,7 @@ type element struct {
 }
 
 type hashTable struct {
+	size  int
 	slots int
 	data  []*element
 }
@@ -71,6 +72,7 @@ func (h *hashTable) insert(key string, value int) {
 	}
 
 	h.data[index] = &newElement
+	h.size++
 }
 
 func (h *hashTable) delete(key string) {
@@ -92,6 +94,7 @@ func (h *hashTable) delete(key string) {
 
 		if node.next.key == key {
 			node.next = node.next.next
+			h.size--
 			return
 		}
 
@@ -170,7 +173,7 @@ func (h *hashTable) resize() {
 }
 
 func (h hashTable) isOverload() bool {
-	return float32(len(h.data))/float32(cap(h.data)) > overloadedFactor
+	return float32(h.size)/float32(cap(h.data)) > overloadedFactor
 }
 
 func (h hashTable) print() {

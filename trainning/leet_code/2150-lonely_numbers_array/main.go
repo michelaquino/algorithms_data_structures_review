@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+// https://leetcode.com/problems/find-all-lonely-numbers-in-the-array/
 func main() {
 	input := []int{62, 35, 59, 55, 84, 61, 38, 87, 55, 82}
 

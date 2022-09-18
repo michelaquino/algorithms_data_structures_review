@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// https://leetcode.com/problems/validate-binary-search-tree/submissions/
+// https://leetcode.com/problems/validate-binary-search-tree
 func main() {
 	tree1 := &TreeNode{
 		Val: 2,

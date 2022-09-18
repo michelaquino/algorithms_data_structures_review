@@ -1,6 +1,6 @@
 package main
 
-// https://leetcode.com/problems/merge-two-sorted-lists/submissions/
+// https://leetcode.com/problems/merge-two-sorted-lists/
 
 type ListNode struct {
 	Val  int

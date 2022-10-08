@@ -78,7 +78,7 @@ func (h *heap) bubbleDown(index int) {
 				posToExchange = right
 			}
 
-			if h.data[index] < maxChild {
+			if maxChild > h.data[index] {
 				h.exchange(index, posToExchange)
 				index = posToExchange
 			} else {

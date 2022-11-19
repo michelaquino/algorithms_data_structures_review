@@ -10,20 +10,11 @@ func main() {
 	g.add(2)
 	g.add(4)
 
-	g.connect(1, 2)
-	g.connect(1, 5)
-	g.connect(2, 1)
-	g.connect(2, 5)
-	g.connect(2, 4)
-	g.connect(2, 3)
-	g.connect(3, 2)
-	g.connect(3, 4)
-	g.connect(4, 5)
-	g.connect(4, 2)
-	g.connect(4, 3)
-	g.connect(5, 1)
-	g.connect(5, 2)
-	g.connect(5, 4)
+	g.connectMany(1, []int{2, 5})
+	g.connectMany(2, []int{1, 5, 4, 3})
+	g.connectMany(3, []int{2, 4})
+	g.connectMany(4, []int{5, 2, 3})
+	g.connectMany(5, []int{1, 2, 4})
 
 	g.print()
 }
@@ -83,6 +74,18 @@ func (g *graph) add(value int) {
 	}
 
 	g.vertices[value] = &newVertex
+}
+
+func (g *graph) connectMany(originValue int, destinations []int) error {
+	if _, originExists := g.vertices[originValue]; !originExists {
+		return fmt.Errorf("vertex %d doesn't exist", originValue)
+	}
+
+	for _, destinationValue := range destinations {
+		g.connect(originValue, destinationValue)
+	}
+
+	return nil
 }
 
 func (g *graph) connect(vertex1Value, vertex2Value int) error {

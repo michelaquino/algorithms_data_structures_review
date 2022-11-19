@@ -40,6 +40,9 @@ func (v *vertex) connect(value int) {
 
 	lastVertex := v
 	for {
+		if lastVertex.value == value {
+			return
+		}
 
 		if lastVertex.next == nil {
 			lastVertex.next = &newVertex
@@ -82,17 +85,19 @@ func (g *graph) add(value int) {
 	g.vertices[value] = &newVertex
 }
 
-func (g *graph) connect(vertex1, vertex2 int) error {
-	vertex, exists := g.vertices[vertex1]
-	if !exists {
-		return fmt.Errorf("vertex %d doesn't exist", vertex1)
+func (g *graph) connect(vertex1Value, vertex2Value int) error {
+	vertex1, vertex1Exists := g.vertices[vertex1Value]
+	if !vertex1Exists {
+		return fmt.Errorf("vertex %d doesn't exist", vertex1Value)
 	}
 
-	if _, exists := g.vertices[vertex2]; !exists {
-		return fmt.Errorf("vertex %d doesn't exist", vertex2)
+	vertex2, vertex2Exists := g.vertices[vertex2Value]
+	if !vertex2Exists {
+		return fmt.Errorf("vertex %d doesn't exist", vertex2Value)
 	}
 
-	vertex.connect(vertex2)
+	vertex1.connect(vertex2Value)
+	vertex2.connect(vertex1Value)
 	return nil
 }
 

@@ -26,11 +26,11 @@ func main() {
 	g.connect(5, 4)
 
 	g.print()
-	values := bfs(g)
+	values := dfs(g)
 	fmt.Println("values: ", values)
 }
 
-func bfs(graph graph) []int {
+func dfs(graph graph) []int {
 	values := []int{}
 
 	visited := map[int]bool{}

@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	g := graph{}
+	g := newGraph()
 	g.add(5)
 	g.add(1)
 	g.add(3)
@@ -67,7 +67,11 @@ func (v vertex) print() {
 }
 
 type graph struct {
-	vertices []*vertex
+	vertices map[int]*vertex
+}
+
+func newGraph() graph {
+	return graph{vertices: make(map[int]*vertex)}
 }
 
 func (g *graph) add(value int) {
@@ -75,15 +79,21 @@ func (g *graph) add(value int) {
 		value: value,
 	}
 
-	g.vertices = append(g.vertices, &newVertex)
+	g.vertices[value] = &newVertex
 }
 
-func (g *graph) connect(vertex1, vertex2 int) {
-	for _, v := range g.vertices {
-		if v.value == vertex1 {
-			v.connect(vertex2)
-		}
+func (g *graph) connect(vertex1, vertex2 int) error {
+	vertex, exists := g.vertices[vertex1]
+	if !exists {
+		return fmt.Errorf("vertex %d doesn't exist", vertex1)
 	}
+
+	if _, exists := g.vertices[vertex2]; !exists {
+		return fmt.Errorf("vertex %d doesn't exist", vertex2)
+	}
+
+	vertex.connect(vertex2)
+	return nil
 }
 
 func (g graph) print() {

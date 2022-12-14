@@ -26,7 +26,7 @@ func main() {
 
 	for _, t := range testCases {
 		fmt.Println("=========================================")
-		output := twoSum(t.nums, t.target)
+		output := twoSumTwoPointers(t.nums, t.target)
 		fmt.Println("output: ", t.nums)
 
 		if !reflect.DeepEqual(output, t.expectdOutput) {
@@ -49,7 +49,7 @@ func twoSumIterateOverArray(numbers []int, target int) []int {
 	return output
 }
 
-func twoSum(numbers []int, target int) []int {
+func twoSumBynarySearch(numbers []int, target int) []int {
 	output := []int{}
 
 	for i := 0; i < len(numbers); i++ {
@@ -72,6 +72,27 @@ func twoSum(numbers []int, target int) []int {
 			} else {
 				start = middle + 1
 			}
+		}
+	}
+
+	return output
+}
+
+func twoSumTwoPointers(numbers []int, target int) []int {
+	output := []int{}
+
+	start := 0
+	end := len(numbers) - 1
+
+	for end > start {
+		result := numbers[start] + numbers[end]
+
+		if result == target {
+			return []int{start + 1, end + 1}
+		} else if result > target {
+			end--
+		} else {
+			start++
 		}
 	}
 

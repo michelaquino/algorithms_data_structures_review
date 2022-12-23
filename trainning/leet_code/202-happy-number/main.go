@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-// https://leetcode.com/problems/house-robber
+// https://leetcode.com/problems/happy-number
 func main() {
 	testCases := []struct {
 		n             int

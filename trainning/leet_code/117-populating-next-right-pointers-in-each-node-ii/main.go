@@ -1,8 +1,45 @@
 package main
 
-// https://leetcode.com/problems/populating-next-right-pointers-in-each-node
+// https://leetcode.com/problems/populating-next-right-pointers-in-each-node-ii
 func main() {
+	// root := &Node{
+	// 	Val: 1,
+	// 	Left: &Node{
+	// 		Val: 2,
+	// 		Left: &Node{
+	// 			Val: 4,
+	// 		},
+	// 	},
+	// 	Right: &Node{
+	// 		Val: 3,
+	// 		Right: &Node{
+	// 			Val: 5,
+	// 		},
+	// 	},
+	// }
+	root := &Node{
+		Val: 1,
+		Left: &Node{
+			Val: 2,
+			Left: &Node{
+				Val: 4,
+				Left: &Node{
+					Val: 7,
+				},
+			},
+			Right: &Node{
+				Val: 5,
+			},
+		},
+		Right: &Node{
+			Val: 3,
+			Right: &Node{
+				Val: 6,
+			},
+		},
+	}
 
+	connect(root)
 }
 
 type Node struct {

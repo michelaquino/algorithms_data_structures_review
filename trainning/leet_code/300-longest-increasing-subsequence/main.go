@@ -54,6 +54,28 @@ func main() {
 }
 
 func lengthOfLIS(nums []int) int {
+	maxSizeSoFar := make([]int, len(nums))
+	for i := 0; i < len(maxSizeSoFar); i++ {
+		maxSizeSoFar[i] = 1
+	}
+
+	for i := 0; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i] > nums[j] {
+				maxSizeSoFar[i] = max(maxSizeSoFar[i], maxSizeSoFar[j]+1)
+			}
+		}
+	}
+
+	result := -1
+	for _, m := range maxSizeSoFar {
+		result = max(result, m)
+	}
+
+	return result
+}
+
+func lengthOfLIS_BinarySearch(nums []int) int {
 	if len(nums) == 0 {
 		return 0
 	}
@@ -95,23 +117,10 @@ func indexOfSmallerNumberThatIsGreaterThanActual(subSequence []int, actualNumber
 	return possibleIndex
 }
 
-func lengthOfLISDynamicProgramming(nums []int) int {
-	memo := make([]int, len(nums))
-
-	max := -1
-	for i := 0; i < len(nums); i++ {
-		for j := 0; j < i; j++ {
-			if nums[i] > nums[j] && memo[i] < memo[j]+1 {
-				memo[i] = memo[j] + 1
-			}
-		}
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
 
-	for _, n := range memo {
-		if n > max {
-			max = n
-		}
-	}
-
-	return max + 1
+	return b
 }

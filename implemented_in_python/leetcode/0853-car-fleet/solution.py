@@ -1,6 +1,22 @@
 # https://leetcode.com/problems/car-fleet/
 
 
+class SimplerSolution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        pair = [(p, s) for p, s in zip(position, speed)]
+        pair.sort()
+
+        stack = []
+        for i in range(len(pair) - 1, -1, -1):
+            position, speed = pair[i][0], pair[i][1]
+            timeToReach = (target - position) / speed
+
+            if len(stack) == 0 or timeToReach > stack[-1]:
+                stack.append(timeToReach)
+
+        return len(stack)
+
+
 class Solution:
     def carFleet(self, target, position, speed):
         answer = 0

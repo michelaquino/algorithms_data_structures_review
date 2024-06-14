@@ -1,6 +1,37 @@
 # https://leetcode.com/problems/minimum-window-substring/
 
 
+class SimplerSolution:
+    def minWindow(self, s: str, t: str) -> str:
+        tCount = {}
+        for l in t:
+            tCount[l] = tCount.get(l, 0) + 1
+
+        start, end = 0, float("infinity")
+        sCount = {}
+        left = 0
+        for right in range(0, len(s)):
+            sCount[s[right]] = sCount.get(s[right], 0) + 1
+
+            while self.conditionIsSatisfied(tCount, sCount):
+                if (right - left + 1) < (end - start + 1):
+                    end = right
+                    start = left
+
+                sCount[s[left]] -= 1
+                left += 1
+
+        return s[start : end + 1] if end < float("infinity") else ""
+
+    def conditionIsSatisfied(self, tCount, sCount):
+        for letter, count in tCount.items():
+            countInS = sCount.get(letter, 0)
+            if countInS < count:
+                return False
+
+        return True
+
+
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
         if len(t) > len(s):

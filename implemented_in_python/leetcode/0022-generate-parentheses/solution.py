@@ -29,6 +29,36 @@ class Solution:
         return ans
 
 
+class OtherSolution(object):
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        result = []
+        stack = []
+
+        def backtracking(startCount, endCount):
+            if startCount > n or endCount > startCount:
+                return
+
+            # found a result
+            if len(stack) == n * 2:
+                result.append("".join(stack))
+                return
+
+            stack.append("(")
+            backtracking(startCount + 1, endCount)
+            stack.pop()
+
+            stack.append(")")
+            backtracking(startCount, endCount + 1)
+            stack.pop()
+
+        backtracking(0, 0)
+        return result
+
+
 s = Solution()
 
 n = 3

@@ -1,5 +1,41 @@
 # https://leetcode.com/problems/permutation-in-string/
 
+
+class SimplerSolution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        s1Count = {}
+
+        for l in s1:
+            s1Count[l] = s1Count.get(l, 0) + 1
+
+        s2Count = {}
+        left, right = 0, 0
+        while right < len(s2):
+            rightLetter = s2[right]
+            s2Count[rightLetter] = s2Count.get(rightLetter, 0) + 1
+
+            if right - left + 1 < len(s1):
+                right += 1
+                continue
+
+            if self.areEqual(s1Count, s2Count):
+                return True
+
+            leftLetter = s2[left]
+            s2Count[leftLetter] -= 1
+            left += 1
+            right += 1
+
+        return False
+
+    def areEqual(self, s1Count, s2Count):
+        for letter, count in s1Count.items():
+            c = s2Count.get(letter, 0)
+            if c != count:
+                return False
+        return True
+
+
 class Solution:
     # O(s2) + O(s1) => O(s2)
     def checkInclusion(self, s1: str, s2: str) -> bool:
@@ -16,7 +52,7 @@ class Solution:
             if count == 0:
                 leftLetter = s2[left]
                 left += 1
-                
+
                 if leftLetter in letterCount:
                     letterCount[leftLetter] += 1
                     continue

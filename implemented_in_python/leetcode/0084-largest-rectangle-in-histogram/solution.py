@@ -16,7 +16,7 @@ class Solution:
             while len(stack) > 0 and stack[-1][1] > h:
                 index, height = stack.pop()
                 largestArea = max(largestArea, (i - index) * height)
-                startIndex = height
+                startIndex = index
 
             stack.append((startIndex, h))
 

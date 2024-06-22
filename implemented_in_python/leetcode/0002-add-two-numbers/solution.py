@@ -14,21 +14,21 @@ class Solution:
     ) -> Optional[ListNode]:
         return self.add(l1, l2, 0)
 
-    def add(self, l1, l2, toSum):
+    def add(self, l1, l2, carry):
         if not l1 and not l2:
-            return None if toSum == 0 else ListNode(toSum)
+            return None if carry == 0 else ListNode(carry)
 
         first = l1.val if l1 else 0
         second = l2.val if l2 else 0
 
-        sum = first + second + toSum
+        sum = first + second + carry
         value = sum if sum < 10 else sum % 10
-        toSum = 0 if sum < 10 else 1
+        carry = 0 if sum < 10 else 1
 
         node = ListNode(value)
 
         l1Next = l1.next if l1 else None
         l2Next = l2.next if l2 else None
 
-        node.next = self.add(l1Next, l2Next, toSum)
+        node.next = self.add(l1Next, l2Next, carry)
         return node

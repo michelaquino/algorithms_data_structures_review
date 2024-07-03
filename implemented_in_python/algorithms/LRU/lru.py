@@ -7,19 +7,11 @@ class Node:
 
 
 class Cache:
-    def __init__(self, size):
-        self.size = size
+    def __init__(self, capacity: int):
+        self.size = capacity
         self.head = None
         self.tail = None
         self.index = {}
-
-    def put(self, key, value):
-        node = self.index.get(key, None)
-        if node:
-            self._update(key, value)
-            return
-
-        self._add(key, value)
 
     def get(self, key):
         node = self.index.get(key, None)
@@ -28,6 +20,14 @@ class Cache:
 
         self._updatePriority(key)
         return node.value
+
+    def put(self, key, value):
+        node = self.index.get(key, None)
+        if node:
+            self._update(key, value)
+            return
+
+        self._add(key, value)
 
     def _add(self, key, value):
         newNode = Node(key, value)
@@ -46,6 +46,10 @@ class Cache:
         self._evict()
 
     def _update(self, key, value):
+        node = self.index.get(key, None)
+        if not node:
+            return
+
         node.value = value
         self._updatePriority(key)
 
@@ -62,10 +66,12 @@ class Cache:
             return
 
         if node == self.head:
+            node.next.prev = None
             self.head = node.next
         else:
             prev = node.prev
             prev.next = node.next
+            node.next.prev = prev
 
         node.next = None
         self.tail.next = node

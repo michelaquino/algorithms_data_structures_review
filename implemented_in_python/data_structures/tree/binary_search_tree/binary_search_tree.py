@@ -177,3 +177,28 @@ print("Max node: ", maxNode.value if maxNode else None)
 tree.printInOrder()
 tree.printPreOrder()
 tree.printPostOrder()
+
+found = tree.search(0)
+print("0 -> Found: ", found.value if found else None)
+
+found = tree.search(14)
+print("14 -> Found: ", found.value if found else None)
+
+found = tree.search(4)
+print("4 -> Found: ", found.value if found else None)
+
+found = tree.search(8)
+print("8 -> Found: ", found.value if found else None)
+
+tree.printInOrder()
+tree.insert(Node(5))
+tree.insert(Node(0))
+tree.printInOrder()
+
+newTree = Tree(None)
+newTree.insert(Node(4))
+newTree.printInOrder()
+newTree.insert(Node(2))
+newTree.printInOrder()
+newTree.insert(Node(7))
+newTree.printInOrder()

@@ -10,7 +10,41 @@ class Tree:
         self.root = root
 
     def insert(self, node):
-        return None
+        # self.root = self._insert_recursive(self.root, node)
+        self.root = self._insert_iterative(self.root, node)
+
+    def _insert_iterative(self, root, node):
+        parent = root
+        curr = root
+        while curr:
+            parent = curr
+            if curr.value < node.value:
+                curr = curr.right
+            else:
+                curr = curr.left
+
+        if not parent:
+            return node
+
+        if node.value > parent.value:
+            parent.right = node
+        else:
+            parent.left = node
+
+        return root
+
+    def _insert_recursive(self, root, node):
+        if not root:
+            return node
+
+        if root.value < node.value:
+            right = self._insert_recursive(root.right, node)
+            root.right = right
+        else:
+            left = self._insert_recursive(root.left, node)
+            root.left = left
+
+        return root
 
     def delete(self):
         return None

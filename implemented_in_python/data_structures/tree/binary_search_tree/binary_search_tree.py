@@ -31,4 +31,18 @@ class Tree:
         return None
 
     def maximum(self):
-        return None
+        return self._iterative_maximum(self.root)
+        # return self._recursive_maximum(self.root)
+
+    def _iterative_maximum(self, node):
+        curr = node
+        while curr and curr.right:
+            curr = curr.right
+
+        return curr
+
+    def _recursive_maximum(self, node):
+        if not node or not node.right:
+            return node
+
+        return self._recursive_maximum(node.right)

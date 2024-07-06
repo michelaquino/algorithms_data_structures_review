@@ -19,13 +19,40 @@ class Tree:
         return None
 
     def printInOrder(self):
-        return None
+        print("==== PRINT IN ORDER ====")
+        self._inOrderTraversal(self.root)
+
+    def _inOrderTraversal(self, root):
+        if not root:
+            return
+
+        self._inOrderTraversal(root.left)
+        print(root.value)
+        self._inOrderTraversal(root.right)
 
     def printPreOrder(self):
-        return None
+        print("==== PRINT PRE ORDER ====")
+        self._preOrderTraversal(self.root)
+
+    def _preOrderTraversal(self, root):
+        if not root:
+            return
+
+        print(root.value)
+        self._preOrderTraversal(root.left)
+        self._preOrderTraversal(root.right)
 
     def printPostOrder(self):
-        return None
+        print("==== PRINT POST ORDER ====")
+        self._postOrderTraversal(self.root)
+
+    def _postOrderTraversal(self, root):
+        if not root:
+            return
+
+        self._postOrderTraversal(root.left)
+        self._postOrderTraversal(root.right)
+        print(root.value)
 
     def minimum(self):
         return self._iterative_minimum(self.root)
@@ -88,3 +115,7 @@ print("Min node: ", minNode.value if minNode else None)
 
 maxNode = tree.maximum()
 print("Max node: ", maxNode.value if maxNode else None)
+
+tree.printInOrder()
+tree.printPreOrder()
+tree.printPostOrder()

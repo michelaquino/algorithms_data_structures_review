@@ -16,7 +16,31 @@ class Tree:
         return None
 
     def search(self, value):
+        # return self._search_iterative(self.root, value)
+        return self._search_recursively(self.root, value)
+
+    def _search_iterative(self, root, value):
+        curr = root
+        while curr:
+            if curr.value < value:
+                return self._search_recursively(curr.right, value)
+            elif curr.value > value:
+                return self._search_recursively(curr.left, value)
+            else:
+                return root
+
         return None
+
+    def _search_recursively(self, root, value):
+        if not root:
+            return None
+
+        if root.value < value:
+            return self._search_recursively(root.right, value)
+        elif root.value > value:
+            return self._search_recursively(root.left, value)
+        else:
+            return root
 
     def printInOrder(self):
         print("==== PRINT IN ORDER ====")

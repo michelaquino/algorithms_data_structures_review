@@ -20,7 +20,6 @@ class TopDownSolution:
                 substring = s[startIndex:endIndex]
 
                 if word == substring:
-                    memo[word] = True
                     found = found or dfs(endIndex)
 
             memo[startIndex] = found
